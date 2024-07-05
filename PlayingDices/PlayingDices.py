@@ -4,12 +4,10 @@ import random as rand
 import matplotlib.pyplot as plt
 
 #N = int(input("Input the size of array (N): "))
-N = 1000
 
-arrayDice1 = [rand.randint(1,6) for i in range(N)]
-arrayDice2 = [rand.randint(1,6) for i in range(N)]
-
-def _sum(dice1, dice2):
+def _sum(N = 1000):
+    arrayDice1 = [rand.randint(1,6) for i in range(N)]
+    arrayDice2 = [rand.randint(1,6) for i in range(N)]
     aux_list = []
     aux_count = 0
     for i in arrayDice1:
@@ -20,11 +18,14 @@ def _sum(dice1, dice2):
             print("An error occurred: ", error)
     return np.array(aux_list)
 
-def _mean(diceSumArray, N):
-    mean = np.sum(diceSumArray) / N
+def _mean(diceSumArray, N = 1000):
+    aux_sum = 0
+    for i in diceSumArray:
+        aux_sum += i
+    mean = aux_sum / N
     return mean
 
-def _stdDev(array, mean , N):
+def _stdDev(array, mean , N = 1000):
     aux_list = []
     for i in array:
         aux_list.append((i - mean) ** 2)
@@ -42,7 +43,7 @@ def _histogram(arraySum):
         
     fig, ax = plt.subplots()
         
-    ax.bar(x, hist, color = 'gray', edgecolor = 'black')
+    ax.bar(x, hist, color = 'blue', edgecolor = 'black')
     
     ax.set_title('Playing Dices')
     ax.set_ylabel('Frequency')
@@ -50,9 +51,9 @@ def _histogram(arraySum):
     plt.savefig('dicesHistogram.png')
     plt.show()
           
-arraySum = _sum(arrayDice1, arrayDice2)
-mean = _mean(arraySum, N)
-stdDev = _stdDev(arraySum, mean, N)
+arraySum = _sum()
+mean = _mean(arraySum)
+stdDev = _stdDev(arraySum, mean)
 
 print(arraySum)
 print(f"Mean ==> Def Mean: {mean}, Numpy Mean: {np.mean(arraySum)}.  Diff = {mean - np.mean(arraySum)}")
